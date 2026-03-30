@@ -1,0 +1,63 @@
+*** Settings ***
+Documentation    "My final task of robot framework"
+Library    SeleniumLibrary
+
+*** Variables ***
+${url}        https://www.saucedemo.com/
+${browser}    firefox
+${username}   standard_user
+${password}   secret_sauce
+${username_1}  standarduser
+${password_1}  secretsauce
+
+
+*** Keywords ***
+Open url
+    Open Browser                            ${url}                         ${browser}
+Valid Username and pssword
+    Element Should Be Visible               id:user-name
+    Input Text                              id:user-name                    ${username}
+    Element Should Be Visible               id:password
+    Input Password                          id:password                    ${password}
+    Click Button                   xpath://input[@type="submit"]
+    
+Invalid cerdentials
+    Element Should Be Visible                id:user-name
+    Input Text                               id:user-name                    ${username_1}
+    Element Should Be Visible                id:password
+    Input Password                            id:password                    ${password_1}
+    Click Button                   xpath://input[@type="submit"]
+Landing in Product page
+    Log To Console                          User lands in a prodcut page
+Add Product to cart
+    Set Selenium Speed                1seconds
+     Page Should Contain            Sauce Labs Backpack
+    @{list_items}    Get Webelements       xpath://div[@class="inventory_item_name "]
+    FOR    ${items}    IN    @{list_items}
+        ${text}    Get Text    ${items}
+        IF    '${text}' == 'Sauce Labs Bike Light'
+            Log To Console    ${text}
+            BREAK
+        END
+    END
+    Set Selenium Speed          1seconds
+    Click Button                xpath://button[@id ='add-to-cart-sauce-labs-bike-light']
+    Set Selenium Speed          1seconds
+    Click Element               xpath://a[@class='shopping_cart_link']
+
+
+*** Test Cases ***
+Case1:Login with valid cerdentails and land in product page
+    Open Url
+    Valid Username And Pssword
+    Landing In Product Page
+
+Case2: Attempt to login with invalid cerdentials and verify error message is displayed
+    Open Url
+    Invalid Cerdentials
+
+Case3:With valid cerdentials add product to cart and verify the product is correctly listed in cart
+    Open Url
+    Valid Username And Pssword
+    Landing In Product Page
+    Add Product To Cart
