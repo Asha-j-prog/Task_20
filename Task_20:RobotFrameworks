@@ -45,13 +45,22 @@ Add Product to cart
     Set Selenium Speed          1seconds
     Click Element               xpath://a[@class='shopping_cart_link']
 
+Add multiple prodcuts
+    Set Selenium Speed    1s
+    Click Button    xpath://button[@id='add-to-cart-sauce-labs-bike-light']
+    Click Button    xpath://button[@id='add-to-cart-sauce-labs-backpack']
+    Click Element    xpath://a[@class='shopping_cart_link']
+
+
+
+
 
 *** Test Cases ***
 Case1:Login with valid cerdentails and land in product page
     Open Url
     Valid Username And Pssword
     Landing In Product Page
-
+    
 Case2: Attempt to login with invalid cerdentials and verify error message is displayed
     Open Url
     Invalid Cerdentials
@@ -61,3 +70,9 @@ Case3:With valid cerdentials add product to cart and verify the product is corre
     Valid Username And Pssword
     Landing In Product Page
     Add Product To Cart
+
+Case4:Mutliple Prodcuts to the cart and checkout
+    Open Url
+    Valid Username And Pssword
+    Landing In Product Page
+    Add Multiple Prodcuts
